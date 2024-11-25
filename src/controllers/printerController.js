@@ -18,7 +18,8 @@ const deletePrinter = async (req, res) => {
 
 const getAvaiblePrinter = async (req, res) => {
     try {
-        
+        const availablePrinters = await printerModel.find({ available: true });
+        res.json({ success: true,availablePrinters });
     } catch (error) {
         res.json({success: false,message: error.message});
     }
@@ -26,7 +27,8 @@ const getAvaiblePrinter = async (req, res) => {
 
 const getAllPrinter = async (req, res) => {
     try {
-        
+        const printers = await printerModel.find({});
+        res.json({ success: true, printers });
     } catch (error) {
         res.json({success: false,message: error.message});
     }

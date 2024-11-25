@@ -12,7 +12,8 @@ const addProcess = async (req, res) => {
 
 const getAllProcess = async (req, res) => {
     try {
-        
+        const process = await processModel.find({});
+        res.json({ success: true, process });
     } catch (error) {
         res.json({success: false,message: error.message});
     }
@@ -20,7 +21,10 @@ const getAllProcess = async (req, res) => {
 
 const getStudentProcess = async (req, res) => {
     try {
+        const { Stu_ID } = req.body;
         
+        const studentProcess = await processModel.find({ Stu_ID: Stu_ID });
+        res.json({ success: true, studentProcess });
     } catch (error) {
         res.json({success: false,message: error.message});
     }
