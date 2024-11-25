@@ -8,6 +8,14 @@ const addPrinter = async (req, res) => {
     }
 }
 
+const deletePrinter = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        res.json({success: false,message: error.message});
+    }
+}
+
 const getAvaiblePrinter = async (req, res) => {
     try {
         
@@ -32,4 +40,4 @@ const updatePrinter = async (req, res) => {
     }
 }
 
-export {addPrinter,getAvaiblePrinter,getAllPrinter,updatePrinter};
+export {addPrinter,getAvaiblePrinter,getAllPrinter,updatePrinter,deletePrinter};
