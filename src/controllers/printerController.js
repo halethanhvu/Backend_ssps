@@ -2,7 +2,23 @@ import printerModel from "../models/printerModel.js";
 
 const addPrinter = async (req, res) => {
     try {
-        
+        const {
+            PrinterID,
+            performance,
+            resources,
+            available
+        } = req.body;
+
+        const printerData = {
+            PrinterID,
+            performance,
+            resources,
+            available
+        }
+
+        const printer = new printerModel(printerData)
+        await printer.save();
+        res.json({success:true,message:"Added Printer"});
     } catch (error) {
         res.json({success: false,message: error.message});
     }
@@ -10,7 +26,8 @@ const addPrinter = async (req, res) => {
 
 const deletePrinter = async (req, res) => {
     try {
-        
+        await printerModel.deleteOne({ PrinterID: req.body.PrinterID })
+        res.json({ success: true, message: "Deleted printer" });
     } catch (error) {
         res.json({success: false,message: error.message});
     }
