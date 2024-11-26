@@ -6,7 +6,7 @@ const userSchema =new mongoose.Schema({
     password: {type: String, require: true},
     role: {type: String, require: true},
     balance: {type: Number},
-    quotas: {type: Object},
+    quotas: {type: Number},
 })
 
 
