@@ -1,7 +1,7 @@
 import express from 'express';
 import {addProcess,getAllProcess,getStudentProcess,getPrinterProcess} from '../controllers/processController.js';
 import upload from '../middleware/multer.js';
-import authUser from '../middleware/userAuth.js';
+import authStudent from '../middleware/userAuth.js';
 
 const processRouter = express.Router();
 

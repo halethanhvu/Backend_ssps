@@ -1,6 +1,6 @@
 import express from 'express';
 import {addPrinter,getAvaiblePrinter,getAllPrinter,updatePrinter,deletePrinter, sendMaintenance} from '../controllers/printerController.js';
-import authUser from '../middleware/userAuth.js';
+import authStudent from '../middleware/userAuth.js';
 
 const printerRouter = express.Router();
 
