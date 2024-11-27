@@ -4,6 +4,10 @@ const addPrinter = async (req, res) => {
     try {
         const {
             PrinterID,
+            brand,
+            model,
+            description,
+            location,
             performance,
             resources,
             available
@@ -11,6 +15,10 @@ const addPrinter = async (req, res) => {
 
         const printerData = {
             PrinterID,
+            brand,
+            model,
+            description,
+            location,
             performance,
             resources,
             available
