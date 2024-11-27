@@ -9,11 +9,11 @@ const createToken = (id) => {
 };
 
 const studentLogin = async (req, res) => {
-    const { Stu_ID, password } = req.body;
+    const { email, password } = req.body;//email
 
     try {
         // Tìm người dùng theo Stu_ID
-        const user = await userModel.findOne({ Stu_ID:Stu_ID });
+        const user = await userModel.findOne({ email:email });
 
         // Kiểm tra nếu người dùng không tồn tại hoặc mật khẩu không đúng
         if (!user || user.password !== password) {
