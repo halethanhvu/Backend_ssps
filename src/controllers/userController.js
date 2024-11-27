@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET="hehehe";
 
 const createToken = (id) => {
-    return jwt.sign({ Stu_ID: user.Stu_ID }, JWT_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ id }, JWT_SECRET, { expiresIn: '1h' });
 };
 
 const studentLogin = async (req, res) => {
@@ -13,7 +13,7 @@ const studentLogin = async (req, res) => {
 
     try {
         // Tìm người dùng theo Stu_ID
-        const user = await userModel.findOne({ Stu_ID });
+        const user = await userModel.findOne({ Stu_ID:Stu_ID });
 
         // Kiểm tra nếu người dùng không tồn tại hoặc mật khẩu không đúng
         if (!user || user.password !== password) {
@@ -31,9 +31,21 @@ const studentLogin = async (req, res) => {
     }
 };
 
-const adminLogin = async (req, res) => { //Chưa làm
+const adminLogin = async (req, res) => {
     try {
-        
+        const {email,password} = req.body;
+        const user = await userModel.findOne({ email:email });
+
+        if (!user || user.password !== password) {
+            return res.status(401).json({ message: "email hoặc mật khẩu không đúng" });
+        }
+
+        if(user.role!="admin") {
+            return res.status(401).json({ message: "Không phải admin" });
+        }
+
+        const token = createToken(user._id);
+        res.status(200).json({ message: "Đăng nhập thành công", token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "đăng nhập sai" });
@@ -41,14 +53,9 @@ const adminLogin = async (req, res) => { //Chưa làm
 }
 
 const updateBalance = async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const { balance } = req.body;
-
     try {
-        // Giải mã JWT để lấy Stu_ID
-        const decoded = jwt.verify(token, JWT_SECRET);
-        const { Stu_ID } = decoded;
-
+        const { Stu_ID,balance } = req.body;
+    
         // Tìm và cập nhật số dư của người dùng
         const user = await userModel.findOneAndUpdate(
             { Stu_ID },
@@ -69,7 +76,7 @@ const updateBalance = async (req, res) => {
     }
 };
 
-const updateQuotas = async (req, res) => {
+const updateQuotas = async (req, res) => {//??
     const { quotas } = req.body;
 
     try {
@@ -88,12 +95,8 @@ const updateQuotas = async (req, res) => {
 };
 
 const getBalance = async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-
     try {
-        // Giải mã JWT để lấy Stu_ID
-        const decoded = jwt.verify(token, JWT_SECRET);
-        const { Stu_ID } = decoded;
+        const { Stu_ID } = req.body;
 
         // Tìm người dùng theo Stu_ID
         const user = await userModel.findOne({ Stu_ID });
@@ -104,7 +107,7 @@ const getBalance = async (req, res) => {
         }
 
         // Trả về balance của người dùng
-        res.status(200).json({ balance: user.balance });
+        res.status(200).json({ message: "lấy chỉ số balance thành công",balance:user.balance });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Lỗi khi lấy số dư" });

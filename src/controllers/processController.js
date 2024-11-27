@@ -4,7 +4,25 @@ import printerModel from "../models/printerModel.js";
 
 const addProcess = async (req, res) => {
     try {
-        
+        const {
+            Stu_ID,
+            PrinterID,
+            filename,
+            time,
+            printProperties,
+        } = req.body;
+
+        const processData = {
+            Stu_ID,
+            PrinterID,
+            filename,
+            time,
+            printProperties,
+        }
+
+        const process = new processModel(processData)
+        await process.save();
+        res.json({success:true,message:"Added Printer"});
     } catch (error) {
         res.json({success: false,message: error.message});
     }
@@ -30,4 +48,14 @@ const getStudentProcess = async (req, res) => {
     }
 }
 
-export {addProcess,getAllProcess,getStudentProcess};
+const getPrinterProcess = async (req, res) => {
+    try {
+        const { Printer_ID } = req.body;
+        const printerProcess = await processModel.find({ Printer_ID: Printer_ID });
+        res.json({ success: true, printerProcess });
+    } catch (error) {
+        res.json({success: false,message: error.message});
+    }
+}
+
+export {addProcess,getAllProcess,getStudentProcess,getPrinterProcess};
